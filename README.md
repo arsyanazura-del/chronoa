@@ -7,6 +7,12 @@ Lightweight Linux monitoring and Pterodactyl backup control. The Go agent reads 
 Requires Go 1.24 or newer. `CHRONOA_ADMIN_PASSWORD` is required at startup and must be a new password of at least 14 characters. Do not reuse the password previously shared in chat. Set it in a protected environment file, never in source control or command-line arguments.
 
 ```sh
+cp .env.example .env
+chmod 600 .env
+# Edit .env and replace every placeholder before starting Chronoa.
+set -a
+. ./.env
+set +a
 go test ./...
 go build -trimpath -ldflags="-s -w" -o chronoa .
 ./chronoa
@@ -32,7 +38,7 @@ Build the binary on the server, then install it and the included unit:
 sudo install -o root -g root -m 0755 chronoa /usr/local/bin/chronoa
 sudo useradd --system --no-create-home --shell /usr/sbin/nologin chronoa
 sudo install -d -o root -g root -m 0700 /etc/chronoa
-sudo install -o root -g root -m 0600 /dev/null /etc/chronoa/chronoa.env
+sudo install -o root -g root -m 0600 .env.example /etc/chronoa/chronoa.env
 sudoedit /etc/chronoa/chronoa.env
 sudo install -m 0644 chronoa.service /etc/systemd/system/chronoa.service
 sudo systemctl daemon-reload
