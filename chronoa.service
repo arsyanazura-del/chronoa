@@ -1,0 +1,28 @@
+[Unit]
+Description=Chronoa Linux metrics agent
+After=network.target
+
+[Service]
+Type=simple
+User=chronoa
+Group=chronoa
+ExecStart=/usr/local/bin/chronoa -addr 127.0.0.1:8787 -data-dir /var/lib/chronoa
+EnvironmentFile=/etc/chronoa/chronoa.env
+Restart=on-failure
+RestartSec=3s
+StateDirectory=chronoa
+StateDirectoryMode=0750
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+
+[Install]
+WantedBy=multi-user.target

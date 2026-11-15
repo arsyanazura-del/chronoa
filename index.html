@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171714">
+  <title>Chronoa | Server Overview</title>
+  <style>
+    :root{color-scheme:dark;--bg:#171714;--panel:#201f1b;--panel-hi:#26241f;--line:#39362e;--text:#eee9dc;--muted:#9a9587;--amber:#f2a83b;--orange:#e87839;--cyan:#83c9c4;--red:#e77b67;--green:#a6c58e;--mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--sans:"Avenir Next",Avenir,"Segoe UI",sans-serif}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:24px}body{margin:0;background-color:var(--bg);background-image:linear-gradient(rgba(242,168,59,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(242,168,59,.022) 1px,transparent 1px);background-size:34px 34px;color:var(--text);font-family:var(--sans);font-size:14px;min-height:100vh}button,a{font:inherit}a{color:inherit;text-decoration:none}.shell{min-height:100vh;display:grid;grid-template-columns:230px minmax(0,1fr)}aside{border-right:1px solid var(--line);padding:24px 16px;display:flex;flex-direction:column;background:rgba(23,23,20,.96)}.brand{display:flex;align-items:center;gap:11px;padding:2px 9px 31px}.brand-mark{width:37px;height:37px;color:var(--amber);filter:drop-shadow(0 0 12px rgba(242,168,59,.19))}.brand-name{font-size:17px;font-weight:700;letter-spacing:1.6px}.brand-sub{font:10px var(--mono);letter-spacing:1px;color:var(--muted);margin-top:4px}.nav-label{font:10px var(--mono);color:#777266;letter-spacing:1.4px;padding:13px 10px 8px}.nav-link{height:36px;display:flex;align-items:center;gap:11px;padding:0 10px;color:#aca696;font-size:12px;border-radius:4px;margin:2px 0}.nav-link:hover,.nav-link.active{background:#2c281e;color:var(--amber)}.nav-icon{width:15px;text-align:center;font:13px var(--mono)}.sidebar-foot{margin-top:auto;border-top:1px solid var(--line);padding:15px 9px 0;color:var(--muted);font:10px/1.8 var(--mono)}.sidebar-foot b{color:var(--green);font-weight:500}.main{max-width:1600px;width:100%;margin:0 auto;padding:29px clamp(18px,3vw,44px) 50px}.topbar{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:21px;margin-bottom:25px;gap:16px}.crumb{font:11px var(--mono);color:var(--muted);letter-spacing:.7px}.crumb strong{color:var(--amber);font-weight:500}.top-right{display:flex;align-items:center;gap:18px;font:11px var(--mono);color:var(--muted)}.live{display:flex;align-items:center;gap:7px}.live-dot{width:7px;height:7px;background:var(--green);border-radius:50%;box-shadow:0 0 9px #a6c58e66}.section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:18px;gap:15px}.eyebrow{font:10px var(--mono);letter-spacing:1.5px;color:var(--amber);text-transform:uppercase;margin-bottom:9px}.section-head h1{font-size:25px;line-height:1.15;letter-spacing:0;margin:0;font-weight:600}.server-name{font:11px var(--mono);color:var(--muted);border:1px solid var(--line);padding:8px 11px;border-radius:3px}.server-name span{color:var(--text)}.grid{display:grid;gap:12px}.summary-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.panel{background:linear-gradient(135deg,rgba(38,36,31,.96),rgba(30,29,25,.96));border:1px solid var(--line);border-radius:4px;padding:16px;min-width:0}.metric-card{min-height:118px;position:relative;overflow:hidden}.metric-card:after{content:"";position:absolute;right:-21px;top:-29px;width:86px;height:86px;border:1px solid rgba(242,168,59,.09);border-radius:50%;box-shadow:0 0 0 9px rgba(242,168,59,.025),0 0 0 19px rgba(242,168,59,.02)}.metric-label{font:10px var(--mono);color:var(--muted);letter-spacing:.8px;text-transform:uppercase}.metric-value{font-size:25px;font-weight:550;margin-top:16px;letter-spacing:.2px}.metric-unit{font:11px var(--mono);color:var(--muted)}.metric-note{font:10px var(--mono);color:var(--muted);margin-top:8px}.accent{color:var(--amber)}.section{margin-top:30px}.section-title{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px}.section-title h2{font-size:13px;margin:0;font-weight:600;letter-spacing:.2px}.section-title span{font:10px var(--mono);color:var(--muted)}.overview-grid{grid-template-columns:minmax(0,1.5fr) minmax(260px,.8fr)}.cpu-panel{min-height:265px}.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.panel-head h3{margin:0;font-size:12px;font-weight:600}.subtle{font:10px var(--mono);color:var(--muted)}.chart{width:100%;height:124px;display:block}.chart-labels{display:flex;justify-content:space-between;color:#777266;font:9px var(--mono);margin-top:7px}.core-list{display:grid;gap:10px;margin-top:16px}.core-row{display:grid;grid-template-columns:52px 1fr 40px;align-items:center;gap:9px;font:10px var(--mono);color:var(--muted)}.bar{height:5px;background:#39362e;border-radius:4px;overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--orange),var(--amber));border-radius:4px;transition:width .6s ease}.core-row strong{font-weight:500;text-align:right;color:var(--text)}.memory-content{display:flex;align-items:center;gap:18px;margin:20px 0 17px}.ring{--percent:0;width:105px;height:105px;flex:none;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--amber) calc(var(--percent)*1%),#39362e 0);position:relative}.ring:before{content:"";position:absolute;inset:7px;border-radius:50%;background:#24221e}.ring-inner{position:relative;text-align:center}.ring-inner strong{display:block;font:19px var(--mono);color:var(--text)}.ring-inner span{font:9px var(--mono);color:var(--muted)}.mem-total{font:11px var(--mono);color:var(--muted);line-height:1.8}.mem-total b{font-size:15px;color:var(--text);font-weight:500}.legend{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding-top:13px;border-top:1px solid var(--line)}.legend div{font:10px var(--mono);color:var(--muted)}.legend b{display:block;color:var(--text);font-size:11px;font-weight:500;margin-top:4px}.two-col{grid-template-columns:minmax(0,1.4fr) minmax(260px,.8fr)}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;white-space:nowrap}th{text-align:left;padding:9px 8px;font:9px var(--mono);letter-spacing:.7px;text-transform:uppercase;color:#807a6d;border-bottom:1px solid var(--line)}td{padding:11px 8px;border-bottom:1px solid rgba(57,54,46,.65);font:11px var(--mono);color:#c6c0b2}tbody tr:last-child td{border-bottom:0}.mount{color:var(--text)}.usage{display:flex;align-items:center;gap:9px}.mini-bar{width:62px;height:4px;background:#39362e;border-radius:4px;overflow:hidden}.mini-bar i{display:block;height:100%;background:var(--cyan)}.empty{color:var(--muted);padding:20px 8px;font:11px var(--mono)}.network-list{display:grid;gap:0}.net-row{display:grid;grid-template-columns:1fr auto;gap:8px;padding:12px 0;border-bottom:1px solid rgba(57,54,46,.65)}.net-row:last-child{border:0}.net-name{font:11px var(--mono);color:var(--text)}.net-address{font:10px var(--mono);color:var(--muted);margin-top:5px}.net-rates{text-align:right;font:10px/1.8 var(--mono);color:var(--muted)}.net-rates b{font-weight:500;color:var(--text)}.net-status{color:var(--green);font:9px var(--mono);text-transform:uppercase}.net-status.down{color:var(--red)}.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.fact{border-left:2px solid #625033;padding:4px 10px}.fact-label{font:9px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.7px}.fact-value{font:14px var(--mono);margin-top:7px;color:var(--text)}.footnote{color:#777266;font:10px/1.7 var(--mono);margin:12px 0 0}.error-banner{display:none;margin:0 0 16px;border:1px solid #6b3f32;background:#321f1b;color:#f0a08a;padding:11px 13px;font:11px var(--mono)}
+    @media(max-width:1000px){.shell{grid-template-columns:190px minmax(0,1fr)}.summary-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.overview-grid,.two-col{grid-template-columns:1fr}.facts{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:640px){.shell{display:block}aside{height:auto;position:sticky;top:0;z-index:4;padding:10px 14px;border-right:0;border-bottom:1px solid var(--line)}.brand{padding:0;gap:8px}.brand-mark{width:30px;height:30px}.brand-name{font-size:14px}.brand-sub{font-size:9px}.nav-label,.sidebar-foot{display:none}nav{display:flex;overflow-x:auto;gap:4px;margin-top:9px;scrollbar-width:none}nav::-webkit-scrollbar{display:none}.nav-link{height:29px;flex:none;padding:0 9px;font-size:10px;margin:0}.nav-icon{display:none}.main{padding:19px 14px 35px}.topbar{padding-bottom:15px;margin-bottom:20px}.top-right{gap:9px;font-size:9px}.section-head h1{font-size:22px}.server-name{font-size:9px;padding:7px}.summary-grid{gap:8px}.panel{padding:13px}.metric-card{min-height:104px}.metric-value{font-size:22px;margin-top:13px}.metric-note{font-size:9px}.section{margin-top:23px}.table-wrap{margin:0 -4px}.facts{gap:13px 5px}.fact-value{font-size:12px}.memory-content{gap:13px}.ring{width:92px;height:92px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
+    .timeline-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.timeline-toolbar select{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:3px;padding:8px 10px;font:10px var(--mono)}.severity-filters{display:flex;gap:4px}.severity-filter{border:1px solid transparent;background:transparent;color:var(--muted);padding:7px 9px;border-radius:3px;font:10px var(--mono);cursor:pointer}.severity-filter:hover,.severity-filter.active{border-color:#5a4930;background:#2c281e;color:var(--amber)}.timeline-list{padding:2px 14px}.timeline-row{display:grid;grid-template-columns:8px 130px 95px minmax(0,1fr) 74px;align-items:center;gap:12px;min-height:45px;border-bottom:1px solid rgba(57,54,46,.65);font:10px var(--mono)}.timeline-row:last-child{border-bottom:0}.timeline-dot{width:7px;height:7px;border-radius:50%;background:var(--cyan)}.timeline-dot.warning{background:var(--amber)}.timeline-dot.critical{background:var(--red)}.timeline-time{color:var(--muted)}.timeline-category{color:#c6c0b2}.timeline-message{color:var(--text);overflow-wrap:anywhere}.timeline-severity{text-align:right;color:var(--cyan)}.timeline-severity.warning{color:var(--amber)}.timeline-severity.critical{color:var(--red)}.timeline-empty{padding:20px 2px;color:var(--muted);font:10px var(--mono)}
+    @media(max-width:640px){.timeline-toolbar{align-items:flex-start;flex-direction:column}.timeline-row{grid-template-columns:7px minmax(0,1fr) auto;gap:6px 9px;padding:10px 0}.timeline-dot{grid-column:1;grid-row:1/3}.timeline-time{grid-column:2;grid-row:1}.timeline-category{grid-column:3;grid-row:1}.timeline-message{grid-column:2/4;grid-row:2}.timeline-severity{grid-column:3;grid-row:3;text-align:right}.timeline-list{padding:0 12px}}
+    .history-filters{display:flex;gap:3px}.history-filter{border:1px solid transparent;background:transparent;color:var(--muted);padding:5px 7px;border-radius:3px;font:9px var(--mono);cursor:pointer}.history-filter:hover,.history-filter.active{border-color:#5a4930;background:#2c281e;color:var(--amber)}@media(max-width:640px){.cpu-panel .panel-head{align-items:flex-start;flex-direction:column;gap:8px}.history-filter{padding:5px 6px}}
+    [hidden]{display:none!important}.app-locked{visibility:hidden;height:100vh;overflow:hidden}.auth-overlay{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:18px;background:rgba(23,23,20,.98)}.auth-card{width:min(440px,100%);background:var(--panel);border:1px solid var(--line);border-top:2px solid var(--amber);padding:26px}.auth-card h1{font-size:23px;margin:0 0 20px;font-weight:600}.auth-card p{color:var(--muted);font:11px/1.7 var(--mono)}.auth-form{display:grid;gap:13px}.auth-form label{display:grid;gap:6px;color:var(--muted);font:10px var(--mono);text-transform:uppercase}.auth-form input{width:100%;height:39px;border:1px solid var(--line);border-radius:3px;background:#171714;color:var(--text);padding:0 10px;font:13px var(--mono)}.auth-form input:focus{outline:1px solid var(--amber);border-color:var(--amber)}.auth-form button,.action-button{min-height:37px;border:1px solid var(--amber);border-radius:3px;background:var(--amber);color:#211b12;padding:0 13px;font:11px var(--mono);font-weight:600;cursor:pointer}.auth-form button:disabled,.action-button:disabled{opacity:.55;cursor:wait}.auth-message{min-height:16px;color:var(--red);font:10px/1.5 var(--mono)}.auth-secret,.auth-uri{display:block;overflow-wrap:anywhere;border:1px solid var(--line);padding:10px;background:#171714;color:var(--amber);font:11px/1.7 var(--mono);user-select:all}.auth-recovery{white-space:pre-wrap;display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:12px;background:#171714;border:1px solid var(--line);color:var(--amber);font:11px var(--mono)}.top-right .logout-button{border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:3px;padding:6px 9px;font:9px var(--mono);cursor:pointer}.top-right .logout-button:hover{border-color:var(--amber);color:var(--amber)}.backup-toolbar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:12px}.backup-toolbar select{min-width:220px;max-width:100%;height:36px;border:1px solid var(--line);border-radius:3px;background:#171714;color:var(--text);padding:0 10px;font:11px var(--mono)}.backup-link{display:inline-flex;align-items:center;min-height:34px;border:1px solid var(--line);border-radius:3px;padding:0 10px;color:var(--cyan);font:10px var(--mono)}.backup-link:hover{border-color:var(--cyan)}.backup-status{min-height:19px;color:var(--muted);font:10px/1.6 var(--mono);margin:7px 0}.backup-status.error{color:var(--red)}.backup-status.ok{color:var(--green)}
+    @media(max-width:640px){.auth-card{padding:20px}.backup-toolbar{align-items:stretch;flex-direction:column}.backup-toolbar select,.backup-toolbar button,.backup-link{width:100%;justify-content:center}}
+  </style>
+</head>
+<body>
+  <div class="auth-overlay" id="auth-overlay">
+    <section class="auth-card" aria-live="polite">
+      <div class="eyebrow">CHRONOA / SECURE ACCESS</div>
+      <h1>Server Control</h1>
+      <form class="auth-form" id="login-step">
+        <label>Username<input id="login-username" value="rsynzr" autocomplete="username" readonly></label>
+        <label>Password<input id="login-password" type="password" autocomplete="current-password" required minlength="14"></label>
+        <label id="login-code-wrap" hidden>Authenticator / recovery code<input id="login-code" inputmode="numeric" autocomplete="one-time-code"></label>
+        <button type="submit">Sign in</button>
+        <div class="auth-message" id="login-message"></div>
+      </form>
+      <div id="totp-step" hidden>
+        <p>Tambahkan secret ini ke aplikasi authenticator, lalu verifikasi kode 6 digit.</p>
+        <code class="auth-secret" id="totp-secret"></code>
+        <p>Provisioning URI</p><code class="auth-uri" id="totp-uri"></code>
+        <form class="auth-form" id="totp-form" style="margin-top:14px">
+          <label>Kode verifikasi<input id="totp-code" inputmode="numeric" autocomplete="one-time-code" required></label>
+          <button type="submit">Verify and enable 2FA</button>
+          <button type="button" class="logout-button" id="totp-retry">Generate another secret</button>
+          <div class="auth-message" id="totp-message"></div>
+        </form>
+      </div>
+      <div id="recovery-step" hidden>
+        <p>Simpan recovery codes ini di tempat aman. Setiap kode hanya dapat digunakan sekali.</p>
+        <pre class="auth-recovery" id="recovery-codes"></pre>
+        <button class="action-button" id="recovery-continue" type="button" style="margin-top:14px">Continue to dashboard</button>
+      </div>
+    </section>
+  </div>
+  <div class="shell app-locked" id="app-shell">
+    <aside>
+      <a class="brand" href="#overview" aria-label="Chronoa overview">
+        <svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M16 3h8l1.2 4.1a13.6 13.6 0 0 1 3.1 1.3l3.8-1.6 5.7 5.7-1.6 3.8a13.6 13.6 0 0 1 1.3 3.1L41 20v1l-4.2 1.2a13.6 13.6 0 0 1-1.3 3.1l1.6 3.8-5.7 5.7-3.8-1.6a13.6 13.6 0 0 1-3.1 1.3L23 38h-8l-1.2-4.2a13.6 13.6 0 0 1-3.1-1.3l-3.8 1.6-5.7-5.7 1.6-3.8a13.6 13.6 0 0 1-1.3-3.1L-2 20v-1l4.2-1.2a13.6 13.6 0 0 1 1.3-3.1l-1.6-3.8 5.7-5.7 3.8 1.6a13.6 13.6 0 0 1 3.1-1.3L16 3Z" transform="translate(1 0) scale(.93)" stroke="currentColor" stroke-width="2"/><circle cx="20" cy="20" r="10.2" stroke="currentColor" stroke-width="1.7"/><path d="M20 13.5v7l4.6 2.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span><span class="brand-name">CHRONOA</span><span class="brand-sub">TIME KEEPS ORDER</span></span>
+      </a>
+      <nav aria-label="Navigasi utama">
+        <div class="nav-label">MONITORING</div>
+        <a class="nav-link active" href="#overview"><span class="nav-icon">◷</span>Overview</a>
+        <a class="nav-link" href="#cpu"><span class="nav-icon">⌁</span>CPU</a>
+        <a class="nav-link" href="#memory"><span class="nav-icon">▤</span>Memory</a>
+        <a class="nav-link" href="#storage"><span class="nav-icon">▱</span>Storage</a>
+        <a class="nav-link" href="#network"><span class="nav-icon">↗</span>Network</a>
+        <a class="nav-link" href="#timeline"><span class="nav-icon">◷</span>Timeline</a>
+        <div class="nav-label">MANAGEMENT</div>
+        <a class="nav-link" href="#backups"><span class="nav-icon">▣</span>Backup Manager</a>
+      </nav>
+      <div class="sidebar-foot">ACCESS <b>● MFA</b><br>BACKUP VIA WINGS</div>
+    </aside>
+    <main class="main" id="overview">
+      <div class="topbar"><div class="crumb">CHRONOA <span>/</span> <strong>OVERVIEW</strong></div><div class="top-right"><span class="live"><i class="live-dot"></i><span id="connection">MENGHUBUNGKAN</span></span><span id="clock">--:--:--</span><button class="logout-button" id="logout-button" type="button" hidden>LOG OUT</button></div></div>
+      <div class="error-banner" id="error">Metrik belum tersedia. Pastikan agent Chronoa berjalan di host Linux ini.</div>
+      <div class="section-head"><div><div class="eyebrow">INSTRUMENT PANEL / 01</div><h1>System Overview</h1></div><div class="server-name">HOST <span id="hostname">membaca...</span></div></div>
+      <section class="grid summary-grid" aria-label="Ringkasan sistem">
+        <article class="panel metric-card"><div class="metric-label">CPU utilization</div><div class="metric-value" id="cpu-value">--<span class="metric-unit"> %</span></div><div class="metric-note" id="cpu-note">Menunggu sampel pertama</div></article>
+        <article class="panel metric-card"><div class="metric-label">Memory used</div><div class="metric-value" id="memory-value">--</div><div class="metric-note" id="memory-note">-- available</div></article>
+        <article class="panel metric-card"><div class="metric-label">System uptime</div><div class="metric-value" id="uptime-value">--</div><div class="metric-note" id="process-note">-- proses aktif</div></article>
+        <article class="panel metric-card"><div class="metric-label">CPU temperature</div><div class="metric-value" id="temperature-value">--</div><div class="metric-note">Zona termal Linux</div></article>
+      </section>
+      <section class="section grid overview-grid">
+        <div class="panel cpu-panel" id="cpu"><div class="panel-head"><h3>CPU / CORE ACTIVITY</h3><div class="history-filters" role="group" aria-label="Rentang histori CPU"><button class="history-filter active" data-range="1m">1m</button><button class="history-filter" data-range="5m">5m</button><button class="history-filter" data-range="1h">1h</button><button class="history-filter" data-range="24h">24h</button><button class="history-filter" data-range="30d">30d</button></div></div><canvas class="chart" id="cpu-chart" aria-label="Grafik histori penggunaan CPU"></canvas><div class="chart-labels"><span id="chart-left">60 detik lalu</span><span id="chart-middle">30 detik</span><span id="chart-right">sekarang</span></div><div class="core-list" id="core-list"></div></div>
+        <div class="panel" id="memory"><div class="panel-head"><h3>MEMORY / PRESSURE</h3><span class="subtle">RAM + SWAP</span></div><div class="memory-content"><div class="ring" id="memory-ring"><div class="ring-inner"><strong id="memory-percent">--%</strong><span>USED</span></div></div><div class="mem-total"><b id="memory-total">--</b><br>total RAM<br><span id="swap-note">Swap --</span></div></div><div class="legend"><div>AVAILABLE<b id="memory-available">--</b></div><div>CACHED + BUFFERS<b id="memory-cache">--</b></div></div></div>
+      </section>
+      <section class="section" id="storage"><div class="section-title"><h2>Mounted filesystems</h2><span>KAPASITAS PER MOUNT / TIDAK DIJUMLAHKAN</span></div><div class="panel table-wrap"><table><thead><tr><th>Mount</th><th>Device</th><th>Filesystem</th><th>Used / total</th><th>Usage</th></tr></thead><tbody id="filesystem-list"><tr><td class="empty" colspan="5">Mengambil data filesystem...</td></tr></tbody></table></div><p class="footnote">Menampilkan filesystem terpasang secara terpisah. Kapasitas tidak dijumlahkan untuk mencegah hitung ganda.</p></section>
+      <section class="section grid two-col" id="network"><div><div class="section-title"><h2>Network interfaces</h2><span>LIVE COUNTERS</span></div><div class="panel network-list" id="network-list"><div class="empty">Mengambil data jaringan...</div></div></div><div><div class="section-title"><h2>System conditions</h2><span>HOST CLOCK / LOAD</span></div><div class="panel facts"><div class="fact"><div class="fact-label">Load 1m</div><div class="fact-value" id="load-1">--</div></div><div class="fact"><div class="fact-label">Load 5m</div><div class="fact-value" id="load-5">--</div></div><div class="fact"><div class="fact-label">Load 15m</div><div class="fact-value" id="load-15">--</div></div><div class="fact"><div class="fact-label">TCP open</div><div class="fact-value" id="tcp-count">--</div></div></div><p class="footnote">Waktu host: <span id="sampled-at">--</span><br>Pengambilan suhu bergantung dukungan kernel dan perangkat.</p></div></section>
+      <section class="section" id="backups"><div class="section-title"><h2>Pterodactyl backups</h2><span>CLIENT API / PANEL STORAGE</span></div><div class="panel"><div class="backup-toolbar"><select id="backup-server" aria-label="Pilih server"><option value="">Loading servers...</option></select><a class="backup-link" id="console-link" href="#" target="_blank" rel="noopener noreferrer" hidden>↗ OPEN SERVER CONSOLE</a><button class="action-button" id="create-backup" type="button" disabled>＋ Create backup</button><button class="logout-button" id="refresh-backups" type="button" disabled>REFRESH</button></div><div class="backup-status" id="backup-status">Menghubungkan ke Pterodactyl...</div><div class="table-wrap"><table><thead><tr><th>Backup</th><th>Created</th><th>Size</th><th>Status</th></tr></thead><tbody id="backup-list"><tr><td class="empty" colspan="4">Pilih server untuk melihat backup.</td></tr></tbody></table></div></div></section>
+      <section class="section" id="timeline"><div class="section-title"><h2>System Timeline</h2><span id="timeline-count">MEMUAT EVENT</span></div><div class="timeline-toolbar"><select id="timeline-category" aria-label="Filter kategori"><option value="">Semua kategori</option><option>CPU</option><option>Memory</option><option>Storage</option><option>Temperature</option></select><div class="severity-filters" role="group" aria-label="Filter tingkat keparahan"><button class="severity-filter active" data-severity="all">Semua</button><button class="severity-filter" data-severity="warning">Warning</button><button class="severity-filter" data-severity="critical">Critical</button><button class="severity-filter" data-severity="info">Info</button></div></div><div class="panel timeline-list" id="timeline-list"><div class="timeline-empty">Mengambil event...</div></div></section>
+      <footer class="footnote" style="margin-top:34px;padding-top:15px;border-top:1px solid var(--line)">CHRONOA · METRICS READ ONLY · BACKUP VIA PTERODACTYL API</footer>
+    </main>
+  </div>
+  <script>
+    let csrfToken = "";
+    let authReady = false;
+    let panelServers = [];
+    let panelURL = "";
+    let history = [];
+    const liveHistory = [];
+    let historyRange = "1m";
+    let timelineEvents = [];
+    let lastEventRefresh = 0;
+    let lastHistoryRefresh = 0;
+    let selectedSeverity = "all";
+    const $ = (id) => document.getElementById(id);
+    const formatBytes = (bytes) => {
+      if (!Number.isFinite(bytes)) return "--";
+      const units = ["B", "KB", "MB", "GB", "TB"];
+      let value = bytes, unit = 0;
+      while (value >= 1024 && unit < units.length - 1) { value /= 1024; unit++; }
+      return `${value.toFixed(unit > 1 ? 1 : 0)} ${units[unit]}`;
+    };
+    const formatRate = (bytes) => `${formatBytes(bytes)}/s`;
+    const duration = (seconds) => {
+      const days = Math.floor(seconds / 86400);
+      const hours = Math.floor(seconds % 86400 / 3600);
+      const minutes = Math.floor(seconds % 3600 / 60);
+      return days ? `${days}d ${hours}h` : `${hours}h ${minutes}m`;
+    };
+    const escapeHTML = (value) => String(value).replace(/[&<>"']/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[char]));
+    const showAuthStep = (step) => {
+      $("login-step").hidden = step !== "login";
+      $("totp-step").hidden = step !== "totp";
+      $("recovery-step").hidden = step !== "recovery";
+      $("auth-overlay").hidden = false;
+      $("app-shell").classList.add("app-locked");
+      authReady = false;
+    };
+    const authFetch = (url, options = {}) => {
+      const headers = new Headers(options.headers || {});
+      if (options.method && options.method !== "GET") headers.set("X-CSRF-Token", csrfToken);
+      return fetch(url, {credentials:"same-origin", cache:"no-store", ...options, headers});
+    };
+    const enterDashboard = () => {
+      $("auth-overlay").hidden = true;
+      $("app-shell").classList.remove("app-locked");
+      $("logout-button").hidden = false;
+      authReady = true;
+      poll();
+      loadPanelServers();
+    };
+    const startTOTPSetup = async () => {
+      const response = await authFetch("/api/auth/totp/start", {method:"POST"});
+      if (!response.ok) throw new Error(await response.text());
+      const setup = await response.json();
+      $("totp-secret").textContent = setup.secret;
+      $("totp-uri").textContent = setup.uri;
+      $("totp-code").focus();
+    };
+    const initializeAuth = async () => {
+      authReady = false;
+      $("app-shell").classList.add("app-locked");
+      $("logout-button").hidden = true;
+      try {
+        const response = await fetch("/api/auth/status", {cache:"no-store", credentials:"same-origin"});
+        if (!response.ok) throw new Error("Status autentikasi tidak tersedia.");
+        const status = await response.json();
+        csrfToken = status.csrf || "";
+        mfaEnabled = status.mfaEnabled;
+        if (!status.authenticated) {
+          showAuthStep("login");
+          $("login-code-wrap").hidden = !mfaEnabled;
+          $("login-message").textContent = "";
+          $("login-password").focus();
+        } else if (status.setupRequired) {
+          showAuthStep("totp");
+          await startTOTPSetup();
+        } else {
+          enterDashboard();
+        }
+      } catch (error) {
+        if (!$ ("totp-step").hidden) {
+          $("totp-message").textContent = error.message;
+        } else {
+          showAuthStep("login");
+          $("login-message").textContent = error.message;
+        }
+      }
+    };
+    const loadPanelServers = async () => {
+      const status = await authFetch("/api/pterodactyl/status");
+      if (!status.ok) { $("backup-status").textContent = "Pterodactyl status tidak tersedia."; return; }
+      const config = await status.json();
+      if (!config.configured) {
+        $("backup-server").innerHTML = `<option value="">Integrasi belum dikonfigurasi</option>`;
+        $("backup-status").textContent = "Atur PTERODACTYL_URL dan PTERODACTYL_API_KEY di environment server.";
+        $("backup-status").className = "backup-status";
+        return;
+      }
+      try {
+        const response = await authFetch("/api/pterodactyl/servers");
+        if (!response.ok) throw new Error(await response.text());
+        panelServers = await response.json();
+        $("backup-server").innerHTML = panelServers.length ? panelServers.map((server) => `<option value="${escapeHTML(server.identifier)}">${escapeHTML(server.name)} · ${escapeHTML(server.identifier)}</option>`).join("") : `<option value="">Tidak ada server yang diizinkan</option>`;
+        $("create-backup").disabled = panelServers.length === 0;
+        $("refresh-backups").disabled = panelServers.length === 0;
+        await loadServerBackups();
+      } catch (error) {
+        $("backup-status").textContent = error.message;
+        $("backup-status").className = "backup-status error";
+      }
+    };
+    const loadServerBackups = async () => {
+      const server = panelServers.find((item) => item.identifier === $("backup-server").value);
+      if (!server) return;
+      $("console-link").href = server.consoleUrl;
+      $("console-link").hidden = false;
+      $("create-backup").disabled = server.backupLimit === 0;
+      $("backup-status").textContent = `Storage dan batas jumlah backup dikelola Pterodactyl · limit ${server.backupLimit}`;
+      $("backup-status").className = "backup-status";
+      const response = await authFetch(`/api/pterodactyl/servers/${encodeURIComponent(server.identifier)}/backups`);
+      if (!response.ok) throw new Error(await response.text());
+      const backups = await response.json();
+      $("backup-list").innerHTML = backups.length ? backups.map((backup) => {
+        const state = backup.successful === null ? "PENDING" : backup.successful ? "COMPLETE" : "FAILED";
+        const date = backup.completedAt || backup.createdAt || "--";
+        return `<tr><td class="mount">${escapeHTML(backup.name || backup.uuid)}</td><td>${escapeHTML(date)}</td><td>${formatBytes(backup.bytes)}</td><td>${state}${backup.locked ? " · LOCKED" : ""}</td></tr>`;
+      }).join("") : `<tr><td class="empty" colspan="4">Belum ada backup untuk server ini.</td></tr>`;
+    };
+    const createPanelBackup = async () => {
+      const server = panelServers.find((item) => item.identifier === $("backup-server").value);
+      if (!server) return;
+      const button = $("create-backup"); button.disabled = true;
+      $("backup-status").textContent = "Mengirim permintaan backup ke Pterodactyl...";
+      try {
+        const response = await authFetch(`/api/pterodactyl/servers/${encodeURIComponent(server.identifier)}/backups`, {method:"POST", headers:{"Content-Type":"application/json"}, body:"{}"});
+        if (!response.ok) throw new Error(await response.text());
+        $("backup-status").textContent = "Permintaan diterima. Status akan muncul setelah Wings menyelesaikan backup.";
+        $("backup-status").className = "backup-status ok";
+        await loadServerBackups();
+      } catch (error) {
+        $("backup-status").textContent = error.message;
+        $("backup-status").className = "backup-status error";
+      } finally { button.disabled = false; }
+    };
+    const renderTimeline = () => {
+      const category = $("timeline-category").value;
+      const visible = timelineEvents.filter((event) => (selectedSeverity === "all" || event.severity === selectedSeverity) && (!category || event.category === category));
+      $("timeline-count").textContent = `${timelineEvents.length} EVENT DIMUAT`;
+      if (!visible.length) {
+        $("timeline-list").innerHTML = `<div class="timeline-empty">Tidak ada event untuk filter ini.</div>`;
+        return;
+      }
+      $("timeline-list").innerHTML = visible.map((event) => {
+        const severity = ["warning", "critical", "info"].includes(event.severity) ? event.severity : "info";
+        const time = new Date(event.timestamp).toLocaleString("id-ID", {day:"2-digit", month:"short", hour:"2-digit", minute:"2-digit", second:"2-digit"});
+        return `<div class="timeline-row"><span class="timeline-dot ${severity}"></span><span class="timeline-time">${escapeHTML(time)}</span><span class="timeline-category">${escapeHTML(event.category)}</span><span class="timeline-message">${escapeHTML(event.message)}</span><span class="timeline-severity ${severity}">${severity.toUpperCase()}</span></div>`;
+      }).join("");
+    };
+    const drawChart = () => {
+      const canvas = $("cpu-chart"), rect = canvas.getBoundingClientRect();
+      if (!rect.width) return;
+      const ratio = window.devicePixelRatio || 1;
+      canvas.width = rect.width * ratio; canvas.height = rect.height * ratio;
+      const ctx = canvas.getContext("2d"); ctx.scale(ratio, ratio);
+      const width = rect.width, height = rect.height, pad = 4;
+      ctx.clearRect(0, 0, width, height);
+      ctx.strokeStyle = "#39362e"; ctx.lineWidth = 1;
+      for (let i = 0; i < 4; i++) { const y = pad + (height - pad * 2) * i / 3; ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width, y); ctx.stroke(); }
+      if (!history.length) return;
+      const points = history.slice(-13);
+      const coords = points.map((value, i) => ({x: points.length === 1 ? width : i * width / (points.length - 1), y: height - pad - (height - pad * 2) * value / 100}));
+      const fill = ctx.createLinearGradient(0, 0, 0, height); fill.addColorStop(0, "rgba(242,168,59,.25)"); fill.addColorStop(1, "rgba(242,168,59,0)");
+      ctx.beginPath(); coords.forEach((point, i) => i ? ctx.lineTo(point.x, point.y) : ctx.moveTo(point.x, point.y)); ctx.lineTo(width, height); ctx.lineTo(0, height); ctx.closePath(); ctx.fillStyle = fill; ctx.fill();
+      ctx.beginPath(); coords.forEach((point, i) => i ? ctx.lineTo(point.x, point.y) : ctx.moveTo(point.x, point.y)); ctx.strokeStyle = "#f2a83b"; ctx.lineWidth = 2; ctx.stroke();
+    };
+    const setChartLabels = () => {
+      const labels = {"1m":["60 detik lalu","30 detik","sekarang"],"5m":["5 menit lalu","2.5 menit","sekarang"],"1h":["1 jam lalu","30 menit","sekarang"],"24h":["24 jam lalu","12 jam","sekarang"],"30d":["30 hari lalu","15 hari","sekarang"]}[historyRange];
+      $("chart-left").textContent = labels[0]; $("chart-middle").textContent = labels[1]; $("chart-right").textContent = labels[2];
+    };
+    const refreshHistory = async () => {
+      if (historyRange === "1m") return;
+      const response = await fetch(`/api/history?range=${historyRange}`, {cache:"no-store"});
+      if (!response.ok) throw new Error("history unavailable");
+      const points = await response.json();
+      history = points.filter((point) => point.cpuReady).map((point) => point.cpuPercent);
+      lastHistoryRefresh = Date.now(); drawChart();
+    };
+    const render = (data) => {
+      $("hostname").textContent = data.hostname || "linux-host";
+      $("clock").textContent = data.sampledAt || "--:--:--";
+      $("sampled-at").textContent = data.sampledAt || "--";
+      $("cpu-value").innerHTML = data.cpuReady ? `${data.cpuPercent.toFixed(1)}<span class="metric-unit"> %</span>` : "--";
+      $("cpu-note").textContent = data.cpuReady ? `${data.cores.length} logical core${data.cores.length === 1 ? "" : "s"}` : "Mengambil sampel awal";
+      if (data.cpuReady) {
+        liveHistory.push(data.cpuPercent); if (liveHistory.length > 13) liveHistory.shift();
+        if (historyRange === "1m") { history = [...liveHistory]; drawChart(); }
+      }
+      $("core-list").innerHTML = data.cores.map((core, i) => `<div class="core-row"><span>CORE ${i}</span><div class="bar"><i style="width:${Math.min(100, core.percent)}%"></i></div><strong>${core.percent.toFixed(0)}%</strong></div>`).join("");
+      const mem = data.memory, memPercent = mem.totalBytes ? mem.usedBytes / mem.totalBytes * 100 : 0;
+      $("memory-value").textContent = `${formatBytes(mem.usedBytes)} / ${formatBytes(mem.totalBytes)}`;
+      $("memory-note").textContent = `${formatBytes(mem.availableBytes)} available`;
+      $("memory-ring").style.setProperty("--percent", memPercent.toFixed(1));
+      $("memory-percent").textContent = `${memPercent.toFixed(0)}%`;
+      $("memory-total").textContent = formatBytes(mem.totalBytes);
+      $("memory-available").textContent = formatBytes(mem.availableBytes);
+      $("memory-cache").textContent = formatBytes(mem.cachedBytes + mem.bufferBytes);
+      $("swap-note").textContent = `Swap ${formatBytes(mem.swapUsedBytes)} / ${formatBytes(mem.swapTotalBytes)}`;
+      $("uptime-value").textContent = duration(data.uptimeSeconds);
+      $("process-note").textContent = `${data.processCount} proses aktif`;
+      $("temperature-value").innerHTML = data.temperatureC == null ? `N/A<span class="metric-unit"> · unsupported</span>` : `${data.temperatureC.toFixed(0)}<span class="metric-unit"> °C</span>`;
+      $("load-1").textContent = data.loadAverage[0].toFixed(2); $("load-5").textContent = data.loadAverage[1].toFixed(2); $("load-15").textContent = data.loadAverage[2].toFixed(2); $("tcp-count").textContent = data.tcpConnections;
+      $("filesystem-list").innerHTML = data.filesystems.length ? data.filesystems.map((fs) => `<tr><td class="mount">${escapeHTML(fs.mount)}</td><td>${escapeHTML(fs.device)}</td><td>${escapeHTML(fs.filesystem)}</td><td>${formatBytes(fs.usedBytes)} / ${formatBytes(fs.totalBytes)}</td><td><div class="usage"><span>${fs.usagePercent.toFixed(0)}%</span><span class="mini-bar"><i style="width:${Math.min(100, fs.usagePercent)}%;background:${fs.usagePercent >= 85 ? "var(--red)" : "var(--cyan)"}"></i></span></div></td></tr>`).join("") : `<tr><td class="empty" colspan="5">Tidak ada filesystem terdeteksi.</td></tr>`;
+      $("network-list").innerHTML = data.interfaces.length ? data.interfaces.map((iface) => `<div class="net-row"><div><div class="net-name">${escapeHTML(iface.name)} <span class="net-status ${iface.status !== "up" ? "down" : ""}">● ${escapeHTML(iface.status)}</span></div><div class="net-address">${escapeHTML(iface.address || "IP tidak tersedia")} · ${iface.errors} errors · ${iface.drops} drops</div></div><div class="net-rates"><b>↓ ${formatRate(iface.rxBytesPerSec)}</b><br><b>↑ ${formatRate(iface.txBytesPerSec)}</b></div></div>`).join("") : `<div class="empty">Tidak ada interface jaringan.</div>`;
+    };
+    let timer;
+    const poll = async () => {
+      clearTimeout(timer);
+      if (!authReady) return;
+      if (document.hidden) { timer = setTimeout(poll, 5000); return; }
+      try {
+        const response = await fetch("/api/metrics", {cache: "no-store"});
+        if (response.status === 401) { await initializeAuth(); return; }
+        if (!response.ok) throw new Error("metrics unavailable");
+        render(await response.json()); $("error").style.display = "none"; $("connection").textContent = "LIVE";
+        if (Date.now() - lastEventRefresh >= 10000) {
+          lastEventRefresh = Date.now();
+          try {
+            const eventResponse = await fetch("/api/events?limit=500", {cache: "no-store"});
+            if (eventResponse.ok) { timelineEvents = await eventResponse.json(); renderTimeline(); }
+          } catch (_) {}
+        }
+        if (historyRange !== "1m" && Date.now() - lastHistoryRefresh >= 30000) {
+          lastHistoryRefresh = Date.now();
+          try { await refreshHistory(); } catch (_) {}
+        }
+      } catch (_) {
+        $("error").style.display = "block"; $("connection").textContent = "OFFLINE";
+      }
+      timer = setTimeout(poll, document.hidden ? 5000 : 5000);
+    };
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) poll(); });
+    window.addEventListener("resize", drawChart);
+    $("login-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const button = $("login-form").querySelector("button[type=submit]"); button.disabled = true;
+      $("login-message").textContent = "";
+      try {
+        const response = await fetch("/api/auth/login", {method:"POST", credentials:"same-origin", headers:{"Content-Type":"application/json"}, body:JSON.stringify({username:$("login-username").value, password:$("login-password").value, code:$("login-code").value})});
+        $("login-password").value = "";
+        if (!response.ok) throw new Error((await response.text()).trim());
+        const state = await response.json(); csrfToken = state.csrf; mfaEnabled = state.mfaEnabled;
+        if (state.setupRequired) { showAuthStep("totp"); await startTOTPSetup(); }
+        else enterDashboard();
+      } catch (error) {
+        if (!$ ("totp-step").hidden) $("totp-message").textContent = error.message;
+        else $("login-message").textContent = error.message;
+      }
+      finally { button.disabled = false; }
+    });
+    $("totp-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const button = $("totp-form").querySelector("button[type=submit]"); button.disabled = true;
+      try {
+        const response = await authFetch("/api/auth/totp/verify", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({code:$("totp-code").value})});
+        if (!response.ok) throw new Error((await response.text()).trim());
+        const result = await response.json(); $("recovery-codes").textContent = result.recoveryCodes.join("\n");
+        $("totp-secret").textContent = ""; $("totp-uri").textContent = ""; $("totp-code").value = "";
+        showAuthStep("recovery");
+      } catch (error) { $("totp-message").textContent = error.message; }
+      finally { button.disabled = false; }
+    });
+    $("totp-retry").addEventListener("click", () => startTOTPSetup().catch((error) => { $("totp-message").textContent = error.message; }));
+    $("recovery-continue").addEventListener("click", () => { $("recovery-codes").textContent = ""; enterDashboard(); });
+    $("logout-button").addEventListener("click", async () => {
+      try { await authFetch("/api/auth/logout", {method:"POST"}); } finally { await initializeAuth(); }
+    });
+    $("backup-server").addEventListener("change", () => loadServerBackups().catch((error) => { $("backup-status").textContent = error.message; $("backup-status").className = "backup-status error"; }));
+    $("refresh-backups").addEventListener("click", () => loadServerBackups().catch((error) => { $("backup-status").textContent = error.message; $("backup-status").className = "backup-status error"; }));
+    $("create-backup").addEventListener("click", createPanelBackup);
+    $("timeline-category").addEventListener("change", renderTimeline);
+    document.querySelectorAll(".history-filter").forEach((button) => button.addEventListener("click", async () => {
+      document.querySelectorAll(".history-filter").forEach((item) => item.classList.remove("active"));
+      button.classList.add("active"); historyRange = button.dataset.range; setChartLabels();
+      history = historyRange === "1m" ? [...liveHistory] : []; drawChart();
+      if (historyRange !== "1m") {
+        lastHistoryRefresh = Date.now();
+        try { await refreshHistory(); } catch (_) {}
+      }
+    }));
+    document.querySelectorAll(".severity-filter").forEach((button) => button.addEventListener("click", () => {
+      document.querySelectorAll(".severity-filter").forEach((item) => item.classList.remove("active"));
+      button.classList.add("active"); selectedSeverity = button.dataset.severity; renderTimeline();
+    }));
+    document.querySelectorAll(".nav-link").forEach((link) => link.addEventListener("click", () => { document.querySelectorAll(".nav-link").forEach((item) => item.classList.remove("active")); link.classList.add("active"); }));
+    initializeAuth();
+  </script>
+</body>
+</html>
